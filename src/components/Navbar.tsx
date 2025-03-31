@@ -1,27 +1,27 @@
-
-import React, { useState } from 'react';
-import Logo from './Logo';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import Logo from "./Logo";
+import { Button } from "@/components/ui/button";
 import { 
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Menu, User, LogIn, LogOut, UserPlus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+} from "@/components/ui/dropdown-menu";
+import { Menu, User, LogIn, LogOut, UserPlus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useUser, useClerk } from "@clerk/clerk-react"; 
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
-  
+  const { user, isSignedIn } = useUser();
+  const { signOut } = useClerk(); 
+
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'ATS Checker', href: '/ats-checker' },
-    { label: 'Interview', href: '/interview' },
+    { label: "Home", href: "/" },
+    { label: "ATS Checker", href: "/ats-checker" },
+    { label: "Interview", href: "/interview" },
   ];
 
   const handleNavigation = (path: string) => {
@@ -54,14 +54,14 @@ const Navbar: React.FC = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="glass-morphism border border-border/30 bg-black/70">
-              {isLoggedIn ? (
+              {isSignedIn ? (
                 <>
                   <DropdownMenuItem className="cursor-pointer" onClick={() => navigate("/profile")}>
                     <User className="mr-2 h-4 w-4" />
                     <span>My Profile</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer text-red-400" onClick={logout}>
+                  <DropdownMenuItem className="cursor-pointer text-red-400" onClick={() => signOut()}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Logout</span>
                   </DropdownMenuItem>
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
           
           <Button 
             className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70"
-            onClick={() => navigate(isLoggedIn ? "/ats-checker" : "/signup")}
+            onClick={() => navigate(isSignedIn ? "/ats-checker" : "/signup")}
           >
             Get Started
           </Button>
@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
             ))}
             
             <div className="border-t border-white/10 my-2 pt-2">
-              {isLoggedIn ? (
+              {isSignedIn ? (
                 <>
                   <button 
                     onClick={() => handleNavigation("/profile")} 
@@ -124,7 +124,7 @@ const Navbar: React.FC = () => {
                     My Profile
                   </button>
                   <button 
-                    onClick={logout}
+                    onClick={() => signOut()}
                     className="flex items-center w-full text-left text-sm text-red-400 hover:text-red-300 transition-colors py-2"
                   >
                     <LogOut className="h-4 w-4 mr-2" />
@@ -153,7 +153,7 @@ const Navbar: React.FC = () => {
             
             <Button 
               className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 mt-2"
-              onClick={() => handleNavigation(isLoggedIn ? "/ats-checker" : "/signup")}
+              onClick={() => handleNavigation(isSignedIn ? "/ats-checker" : "/signup")}
             >
               Get Started
             </Button>

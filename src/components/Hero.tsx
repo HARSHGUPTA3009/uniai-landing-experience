@@ -1,79 +1,19 @@
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { gsap } from 'gsap';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
-  const heroRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-
-  // GSAP animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate hero section
-      gsap.from(textRef.current, {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        ease: 'power3.out'
-      });
-
-      // Animate the hero image
-      gsap.from(imageRef.current, {
-        opacity: 0,
-        scale: 0.9,
-        rotation: -5,
-        duration: 1.2,
-        delay: 0.3,
-        ease: 'back.out(1.7)'
-      });
-
-      // Animate the stats section
-      gsap.from(statsRef.current?.children, {
-        opacity: 0,
-        y: 20,
-        stagger: 0.15,
-        duration: 0.8,
-        delay: 0.6,
-        ease: 'power2.out'
-      });
-
-      // Animate the buttons
-      gsap.from('.hero-button', {
-        opacity: 0,
-        y: 10,
-        stagger: 0.2,
-        duration: 0.6,
-        delay: 0.4,
-        ease: 'power2.out'
-      });
-
-      // Animate the user avatars
-      gsap.from('.user-avatar', {
-        opacity: 0,
-        x: -10,
-        stagger: 0.1,
-        duration: 0.5,
-        delay: 0.9,
-        ease: 'power1.out'
-      });
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <section ref={heroRef} className="relative min-h-screen pt-20 flex items-center">
+    <section className="relative min-h-screen pt-20 flex items-center">
       <div className="absolute top-1/4 right-0 left-0 -z-10 mx-auto w-3/4 h-80 bg-uniai-blue/20 blur-[100px] rounded-full"></div>
       
       <div className="container mx-auto px-4 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div ref={textRef} className="flex flex-col gap-6 max-w-xl">
+          <div className="flex flex-col gap-6 max-w-xl">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gradient-primary leading-tight">
               Your AI Career Companion
             </h1>
@@ -84,7 +24,7 @@ const Hero: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
               <Button 
                 size="lg" 
-                className="hero-button bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 font-medium"
+                className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 font-medium"
                 onClick={() => navigate('/signup')}
               >
                 Get Started
@@ -93,7 +33,7 @@ const Hero: React.FC = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="hero-button border-white/10 hover:bg-white/5"
+                className="border-white/10 hover:bg-white/5"
                 onClick={() => navigate('/ats-checker')}
               >
                 Learn More
@@ -103,7 +43,7 @@ const Hero: React.FC = () => {
             <div className="flex items-center gap-4 mt-4">
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map(idx => (
-                  <div key={idx} className="user-avatar w-8 h-8 rounded-full bg-gradient-to-br from-gray-500 to-gray-700 ring-2 ring-background"></div>
+                  <div key={idx} className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-500 to-gray-700 ring-2 ring-background"></div>
                 ))}
               </div>
               <p className="text-sm text-muted-foreground">
@@ -112,7 +52,7 @@ const Hero: React.FC = () => {
             </div>
           </div>
           
-          <div ref={imageRef} className="relative">
+          <div className="relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-uniai-blue/30 blur-[60px] rounded-full"></div>
             <div className="relative animate-float">
               <div className="p-2 glass-morphism rounded-2xl shadow-lg">
@@ -128,7 +68,7 @@ const Hero: React.FC = () => {
         </div>
         
         {/* Stats Section */}
-        <div ref={statsRef} className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             { value: '95%', label: 'ATS Pass Rate' },
             { value: '3x', label: 'Interview Success' },

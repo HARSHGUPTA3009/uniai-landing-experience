@@ -10,18 +10,24 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Menu, User, LogIn, LogOut, UserPlus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // For demo purposes
+  const navigate = useNavigate();
+  const { isLoggedIn, logout } = useAuth();
   
-  const toggleLogin = () => setIsLoggedIn(!isLoggedIn);
-
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'ATS Checker', href: '/ats-checker' },
     { label: 'Interview', href: '/interview' },
   ];
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-morphism">
@@ -50,23 +56,23 @@ const Navbar: React.FC = () => {
             <DropdownMenuContent align="end" className="glass-morphism border border-border/30 bg-black/70">
               {isLoggedIn ? (
                 <>
-                  <DropdownMenuItem className="cursor-pointer">
+                  <DropdownMenuItem className="cursor-pointer" onClick={() => navigate("/profile")}>
                     <User className="mr-2 h-4 w-4" />
                     <span>My Profile</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer text-red-400" onClick={toggleLogin}>
+                  <DropdownMenuItem className="cursor-pointer text-red-400" onClick={logout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Logout</span>
                   </DropdownMenuItem>
                 </>
               ) : (
                 <>
-                  <DropdownMenuItem className="cursor-pointer" onClick={toggleLogin}>
+                  <DropdownMenuItem className="cursor-pointer" onClick={() => navigate("/signin")}>
                     <LogIn className="mr-2 h-4 w-4" />
                     <span>Sign In</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer">
+                  <DropdownMenuItem className="cursor-pointer" onClick={() => navigate("/signup")}>
                     <UserPlus className="mr-2 h-4 w-4" />
                     <span>Sign Up</span>
                   </DropdownMenuItem>
@@ -75,7 +81,10 @@ const Navbar: React.FC = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <Button className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70">
+          <Button 
+            className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70"
+            onClick={() => navigate(isLoggedIn ? "/ats-checker" : "/signup")}
+          >
             Get Started
           </Button>
         </nav>
@@ -107,12 +116,15 @@ const Navbar: React.FC = () => {
             <div className="border-t border-white/10 my-2 pt-2">
               {isLoggedIn ? (
                 <>
-                  <a href="/profile" className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+                  <button 
+                    onClick={() => handleNavigation("/profile")} 
+                    className="flex items-center w-full text-left text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                  >
                     <User className="h-4 w-4 mr-2" />
                     My Profile
-                  </a>
+                  </button>
                   <button 
-                    onClick={toggleLogin}
+                    onClick={logout}
                     className="flex items-center w-full text-left text-sm text-red-400 hover:text-red-300 transition-colors py-2"
                   >
                     <LogOut className="h-4 w-4 mr-2" />
@@ -122,21 +134,27 @@ const Navbar: React.FC = () => {
               ) : (
                 <>
                   <button 
-                    onClick={toggleLogin}
+                    onClick={() => handleNavigation("/signin")}
                     className="flex items-center w-full text-left text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
                   >
                     <LogIn className="h-4 w-4 mr-2" />
                     Sign In
                   </button>
-                  <a href="/signup" className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+                  <button 
+                    onClick={() => handleNavigation("/signup")} 
+                    className="flex items-center w-full text-left text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                  >
                     <UserPlus className="h-4 w-4 mr-2" />
                     Sign Up
-                  </a>
+                  </button>
                 </>
               )}
             </div>
             
-            <Button className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 mt-2">
+            <Button 
+              className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 mt-2"
+              onClick={() => handleNavigation(isLoggedIn ? "/ats-checker" : "/signup")}
+            >
               Get Started
             </Button>
           </nav>

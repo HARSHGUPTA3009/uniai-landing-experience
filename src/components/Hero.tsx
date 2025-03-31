@@ -2,8 +2,11 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-screen pt-20 flex items-center">
       <div className="absolute top-1/4 right-0 left-0 -z-10 mx-auto w-3/4 h-80 bg-uniai-blue/20 blur-[100px] rounded-full"></div>
@@ -19,11 +22,20 @@ const Hero: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <Button size="lg" className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 font-medium">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 font-medium"
+                onClick={() => navigate('/signup')}
+              >
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white/10 hover:bg-white/5"
+                onClick={() => navigate('/ats-checker')}
+              >
                 Learn More
               </Button>
             </div>
@@ -44,18 +56,10 @@ const Hero: React.FC = () => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-uniai-blue/30 blur-[60px] rounded-full"></div>
             <div className="relative animate-float">
               <div className="p-2 glass-morphism rounded-2xl shadow-lg">
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-uniai-blue/10 to-uniai-blue/5">
-                  <img 
-                    src="public/lovable-uploads/137075c3-dbba-4e97-9df2-ad96e139e0c6.png"
-                    alt="UniAI AI Assistant"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                <div className="absolute -bottom-4 -right-4 glass-morphism p-4 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                    <p className="text-sm font-medium">AI Assistant Active</p>
+                <div className="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-uniai-blue/20 to-uniai-blue/10 flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <h3 className="text-2xl font-bold text-gradient-primary mb-4">Resume Analysis</h3>
+                    <p className="text-muted-foreground">Optimize your resume for ATS systems with our advanced AI tools</p>
                   </div>
                 </div>
               </div>

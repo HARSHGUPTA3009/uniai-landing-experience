@@ -1,22 +1,82 @@
-import React from 'react';
+
+import React, { useEffect, useRef } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { SignUp } from '@clerk/clerk-react';
+import gsap from 'gsap';
 
 const SignUpPage = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    
+    // Fade in the container with a slight scale
+    tl.fromTo(containerRef.current,
+      { opacity: 0, scale: 0.95 },
+      { opacity: 1, scale: 1, duration: 0.8 }
+    );
+    
+    // Animate the title from bottom with a slight blur effect
+    tl.fromTo(titleRef.current,
+      { opacity: 0, y: 20, filter: 'blur(10px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6 },
+      "-=0.4"
+    );
+    
+    // Animate the subtitle slightly delayed
+    tl.fromTo(subtitleRef.current,
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.6 },
+      "-=0.4"
+    );
+    
+    // Animate the form with a slight delay
+    tl.fromTo(formRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.7 },
+      "-=0.3"
+    );
+
+    // Clean up
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow pt-24 pb-12 flex items-center justify-center">
-        <div className="container mx-auto max-w-md px-4">
-          <div className="glass-morphism p-1.5 rounded-2xl">
+        <div ref={containerRef} className="container mx-auto max-w-md px-4">
+          <div className="glass-morphism p-6 rounded-2xl shadow-[0_10px_40px_rgba(115,194,251,0.15)] backdrop-blur-xl">
             <div className="text-center mb-6">
-              <h1 className="text-3xl font-bold text-gradient-primary">Create Account</h1>
-              <p className="text-muted-foreground mt-2">Join UniAI today</p>
+              <h1 ref={titleRef} className="text-3xl font-bold text-gradient-primary">Create Account</h1>
+              <p ref={subtitleRef} className="text-muted-foreground mt-2">Join UniAI today</p>
             </div>
-
             
-            <SignUp path="/signup" routing="path" redirectUrl="/profile" />
+            <div ref={formRef}>
+              <SignUp 
+                path="/signup" 
+                routing="path" 
+                redirectUrl="/profile" 
+                appearance={{
+                  elements: {
+                    formButtonPrimary: "bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 font-medium transition-all duration-300",
+                    card: "shadow-none",
+                    headerTitle: "hidden",
+                    headerSubtitle: "hidden",
+                    socialButtonsBlockButton: "border border-white/10 bg-white/5 hover:bg-white/10 transition-colors",
+                    formFieldInput: "bg-transparent border border-white/10 focus:border-uniai-blue transition-colors",
+                    footerActionText: "text-white/70 hover:text-white transition-colors",
+                    footerActionLink: "text-uniai-blue hover:text-uniai-blue/80 transition-colors"
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
       </main>

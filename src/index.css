@@ -77,4 +77,17 @@
   .text-gradient-primary {
     @apply bg-gradient-to-br from-uniai-blue via-uniai-blue/80 to-uniai-light/90 bg-clip-text text-transparent;
   }
+  
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0); 
+    }
+    50% { 
+      transform: translateY(-10px); 
+    }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
 }

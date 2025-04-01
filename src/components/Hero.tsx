@@ -1,11 +1,60 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import gsap from 'gsap';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const usersRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Animation for the "Your AI Career Companion" part
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    
+    tl.fromTo(
+      titleRef.current,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8 }
+    );
+    
+    tl.fromTo(
+      descRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6 },
+      "-=0.4"
+    );
+    
+    tl.fromTo(
+      buttonsRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5 },
+      "-=0.3"
+    );
+    
+    tl.fromTo(
+      usersRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5 },
+      "-=0.2"
+    );
+    
+    tl.fromTo(
+      statsRef.current,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 },
+      "-=0.3"
+    );
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
 
   return (
     <section className="relative min-h-screen pt-20 flex items-center">
@@ -14,14 +63,14 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col gap-6 max-w-xl">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gradient-primary leading-tight">
+            <h1 ref={titleRef} className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gradient-primary leading-tight">
               Your AI Career Companion
             </h1>
-            <p className="text-lg text-muted-foreground">
+            <p ref={descRef} className="text-lg text-muted-foreground">
               UniAI helps you optimize your resume for ATS systems, prepare for interviews, and land your dream job with AI-powered tools.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 mt-4">
               <Button 
                 size="lg" 
                 className="bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 font-medium"
@@ -40,7 +89,7 @@ const Hero: React.FC = () => {
               </Button>
             </div>
             
-            <div className="flex items-center gap-4 mt-4">
+            <div ref={usersRef} className="flex items-center gap-4 mt-4">
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map(idx => (
                   <div key={idx} className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-500 to-gray-700 ring-2 ring-background"></div>
@@ -68,7 +117,7 @@ const Hero: React.FC = () => {
         </div>
         
         {/* Stats Section */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div ref={statsRef} className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             { value: '95%', label: 'ATS Pass Rate' },
             { value: '3x', label: 'Interview Success' },

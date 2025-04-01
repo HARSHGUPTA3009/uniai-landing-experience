@@ -52,7 +52,7 @@ const SignInPage = () => {
       <Navbar />
       <main className="flex-grow pt-24 pb-12 flex items-center justify-center">
         <div ref={containerRef} className="container mx-auto max-w-md px-4">
-          <div className="glass-morphism p-6 rounded-2xl text-center shadow-[0_10px_40px_rgba(115,194,251,0.15)] backdrop-blur-xl">
+          <div className="glass-morphism p-1.5 rounded-2xl text-center shadow-[0_10px_40px_rgba(115,194,251,0.15)] backdrop-blur-xl">
             <h1 ref={titleRef} className="text-3xl font-bold text-gradient-primary mb-4">Welcome Back</h1>
             <p ref={subtitleRef} className="text-muted-foreground mb-6">Sign in to your account</p>
             <div ref={formRef}>
@@ -60,18 +60,7 @@ const SignInPage = () => {
                 path="/signin" 
                 routing="path" 
                 redirectUrl="/profile" 
-                appearance={{
-                  elements: {
-                    formButtonPrimary: "bg-gradient-to-r from-uniai-blue to-uniai-blue/80 text-uniai-dark hover:from-uniai-blue/90 hover:to-uniai-blue/70 font-medium transition-all duration-300",
-                    card: "shadow-none",
-                    headerTitle: "hidden",
-                    headerSubtitle: "hidden",
-                    socialButtonsBlockButton: "border border-white/10 bg-white/5 hover:bg-white/10 transition-colors",
-                    formFieldInput: "bg-transparent border border-white/10 focus:border-uniai-blue transition-colors",
-                    footerActionText: "text-white/70 hover:text-white transition-colors",
-                    footerActionLink: "text-uniai-blue hover:text-uniai-blue/80 transition-colors"
-                  }
-                }}
+                 
               />
             </div>
           </div>
